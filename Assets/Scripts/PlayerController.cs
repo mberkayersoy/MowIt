@@ -39,9 +39,13 @@ public class PlayerController : MonoBehaviour
 
     void Move()
     {
-        if(transform.position != targetPosition)
+        if((transform.position-targetPosition).magnitude>0.1f && currentState != State.Stop)
         {
             transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
+        }
+        else
+        {
+            currentState = State.Stop;
         }
 
     }
@@ -57,9 +61,14 @@ public class PlayerController : MonoBehaviour
             if (obj.CompareTag("rock"))
             {
                 targetPosition = hit.point - transform.forward;
-                targetPosition.y = transform.localScale.x / 2;
             }
         }
+    }
+    //create raycast gizmo to see where the raycast is going
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(transform.position, transform.forward * 1000);
     }
 
     void GetInputs()
