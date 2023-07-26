@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float moveSpeed = 10f;
     private Rigidbody rb;
 
-    public int queueSize = 2;
+    public int queueSize = 3;
     [SerializeField] public Queue<State> directions;
     public State currentState;
     public Vector3 targetPosition;
@@ -28,24 +28,31 @@ public class PlayerController : MonoBehaviour
         directions = new Queue<State>(queueSize);
         rb = GetComponent<Rigidbody>();
         currentState = State.Stop;
+
     }
 
     void Update()
     {
-        GetInputs();
+        GetInputs();    
         RotatePlayer();
         Move();
+        Debug.Log("directions.Count. " + directions.Count);
     }
 
     void Move()
     {
-        if((transform.position-targetPosition).magnitude>0.1f && currentState != State.Stop)
+        if((transform.position - targetPosition).magnitude > 0.01f && currentState != State.Stop)
         {
             transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
         }
         else
         {
             currentState = State.Stop;
+            Vector3 correction = new Vector3(
+                    Mathf.Round(transform.position.x),
+                    transform.position.y,
+                    Mathf.Round(transform.position.z));
+            transform.position = correction;
         }
 
     }
@@ -60,7 +67,7 @@ public class PlayerController : MonoBehaviour
 
             if (obj.CompareTag("rock"))
             {
-                targetPosition = hit.point - transform.forward;
+                targetPosition = hit.point - transform.forward / 2;
             }
         }
     }
@@ -77,24 +84,63 @@ public class PlayerController : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.W))
         {
-            directions.Enqueue(State.Forward);
+            SetQueue(State.Forward);
         }
         else if (Input.GetKeyDown(KeyCode.S))
         {
-            directions.Enqueue(State.Backward);
+            SetQueue(State.Backward);
         }
         else if (Input.GetKeyDown(KeyCode.A))
         {
-            directions.Enqueue(State.Left);
+            SetQueue(State.Left);
         }
         else if (Input.GetKeyDown(KeyCode.D))
         {
-            directions.Enqueue(State.Right);
+            SetQueue(State.Right);
         }
         else if (Input.GetKeyDown(KeyCode.Space))
         {
-            directions.Enqueue(State.Stop);
+            SetQueue(State.Stop);
         }
+    }
+
+    void SetSpeed()
+    {
+        //if (directions.Count == 0)
+        //{
+        //    smoothTime = 0.25f;
+        //    return;
+        //}
+        switch (directions.Count)
+        {
+            case 0:
+                smoothTime = 0.18f;
+                break;
+            case 1:
+                smoothTime = 0.14f;
+                break;
+            case 2:
+                smoothTime = 0.10f;
+                break;
+            default:
+                break;
+        }
+    }
+
+    void SetQueue(State state)
+    {
+        if (directions.TryPeek(out State firstState))
+        {
+            if (firstState != state)
+            {
+                directions.Enqueue(state);
+            }
+        }
+        else
+        {
+            directions.Enqueue(state);
+        }
+
     }
     void RotatePlayer()
     {
@@ -104,8 +150,8 @@ public class PlayerController : MonoBehaviour
             {
                 return;
             }
-
             currentState = directions.Dequeue();
+            SetSpeed();
             Quaternion angle;
 
             switch (currentState)
