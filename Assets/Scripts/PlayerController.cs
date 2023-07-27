@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using DG.Tweening;
 public enum State
 {
     Forward,
@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float moveSpeed = 10f;
     private Rigidbody rb;
 
-    public int queueSize = 3;
+    public int queueSize = 3;   
     [SerializeField] public Queue<State> directions;
     public State currentState;
     public Vector3 targetPosition;
@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour
         GetInputs();    
         RotatePlayer();
         Move();
-        Debug.Log("directions.Count. " + directions.Count);
+        //Debug.Log("directions.Count. " + directions.Count);
     }
 
     void Move()
@@ -106,11 +106,6 @@ public class PlayerController : MonoBehaviour
 
     void SetSpeed()
     {
-        //if (directions.Count == 0)
-        //{
-        //    smoothTime = 0.25f;
-        //    return;
-        //}
         switch (directions.Count)
         {
             case 0:
@@ -146,7 +141,8 @@ public class PlayerController : MonoBehaviour
     {
         if (currentState == State.Stop)
         {
-            if(directions.Count <= 0)
+
+            if (directions.Count <= 0)
             {
                 return;
             }
@@ -178,5 +174,16 @@ public class PlayerController : MonoBehaviour
             }
             FindTarget();
         }     
+    }
+
+    void HitAnimation()
+    {
+        transform.DOScaleZ(transform.localScale.z + 0.1f, 0.1f)
+            .SetEase(Ease.OutBack)
+            .OnComplete(() =>
+            {
+                transform.DOScaleZ(transform.localScale.z, 0.1f)
+                    .SetEase(Ease.InBack);
+            });
     }
 }
