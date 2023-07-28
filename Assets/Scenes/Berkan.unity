@@ -426,6 +426,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &36828020 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 635547659545568360, guid: 3342aa35238577e4bb5912d5c7cc11c0,
+    type: 3}
+  m_PrefabInstance: {fileID: 2049879638}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &39441834
 GameObject:
   m_ObjectHideFlags: 0
@@ -1263,6 +1269,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e905226bda6724e428dbeeef05c7ae28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moneyText: {fileID: 1115456356}
 --- !u!1 &108361365
 GameObject:
   m_ObjectHideFlags: 0
@@ -3382,6 +3389,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6355901365153681301, guid: 842368cb95572d14298c0b3a7bf570f0,
     type: 3}
   m_PrefabInstance: {fileID: 501715436}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &515684529 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 521274363717440804, guid: 3342aa35238577e4bb5912d5c7cc11c0,
+    type: 3}
+  m_PrefabInstance: {fileID: 2049879638}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &526858040
 GameObject:
@@ -7025,6 +7038,12 @@ Transform:
   - {fileID: 1050536562}
   m_Father: {fileID: 1137491483}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1491327959 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 3342aa35238577e4bb5912d5c7cc11c0,
+    type: 3}
+  m_PrefabInstance: {fileID: 2049879638}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1527832515
 GameObject:
   m_ObjectHideFlags: 0
@@ -9408,7 +9427,11 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 3342aa35238577e4bb5912d5c7cc11c0,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2145010069}
   m_SourcePrefab: {fileID: 100100000, guid: 3342aa35238577e4bb5912d5c7cc11c0, type: 3}
 --- !u!1001 &2052014840
 PrefabInstance:
@@ -10152,6 +10175,25 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2049879638}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2145010069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1491327959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f45b07ea92ce92449aa35258d1a7af8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  body: {fileID: 36828020}
+  engine: {fileID: 515684529}
+  shakeStrength: 0.07
+  shakeTime: 0.1
+  randomness: 5
+  vibrato: 4
+  shakeMultiplier: 2
 --- !u!1001 &4544450276804020244
 PrefabInstance:
   m_ObjectHideFlags: 0
