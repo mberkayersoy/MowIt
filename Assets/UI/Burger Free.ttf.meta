@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 46f4b92808329ba43b9252d35ec542ec
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Burger Free
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 2248f6bd2e953c345ad3e9d7ab311f11, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
