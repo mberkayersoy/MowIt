@@ -21,22 +21,64 @@ public class PlayerController : MonoBehaviour
     public float smoothTime = 0.250f; // speed
     public Vector3 targetPosition;
     Vector3 velocity = Vector3.zero;
-    public int playerStrength = 0;
+    //public int currentLevel;
+
+    private Vector2 touchStartPosition;
+    private Vector2 touchEndPosition;
 
     void Start()
     {
         directions = new Queue<State>(queueSize);
         rb = GetComponent<Rigidbody>();
         currentState = State.Stop;
-
     }
 
     void Update()
     {
-        GetInputs();    
+        //GetInputs();
+        TouchInputs();
         RotatePlayer();
         Move();
-        //Debug.Log("directions.Count. " + directions.Count);
+    }
+
+    void TouchInputs()
+    {
+        if (Input.touchCount > 0)
+        {
+            Touch touch = Input.GetTouch(0);
+
+            if (touch.phase == TouchPhase.Began)
+            {
+                touchStartPosition = touch.position; // First Touch Position
+            }
+            else if (touch.phase == TouchPhase.Ended)
+            {
+                touchEndPosition = touch.position; // Last Touch Position
+
+                // Direction Vector
+                Vector2 touchVector = touchEndPosition - touchStartPosition;
+
+
+                float angle = Mathf.Atan2(touchVector.y, touchVector.x) * Mathf.Rad2Deg;
+
+                if (angle < 45f && angle > -45f)
+                {
+                    SetQueue(State.Right);
+                }
+                else if (angle > 45f && angle < 135f)
+                {
+                    SetQueue(State.Forward);
+                }
+                else if (angle > 135f || angle < -135f)
+                {
+                    SetQueue(State.Left);
+                }
+                else
+                {
+                    SetQueue(State.Backward);
+                }
+            }
+        }
     }
 
     void Move()
@@ -44,6 +86,7 @@ public class PlayerController : MonoBehaviour
         if((transform.position - targetPosition).magnitude > 0.01f && currentState != State.Stop)
         {
             transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
+            //To do: transform.DOMove(); 
         }
         else
         {
@@ -77,29 +120,6 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawRay(transform.position, transform.forward * 1000);
     }
-
-    void GetInputs()
-    {
-        if (directions.Count >= queueSize) return;
-
-        if(Input.GetKeyDown(KeyCode.W))
-        {
-            SetQueue(State.Forward);
-        }
-        else if (Input.GetKeyDown(KeyCode.S))
-        {
-            SetQueue(State.Backward);
-        }
-        else if (Input.GetKeyDown(KeyCode.A))
-        {
-            SetQueue(State.Left);
-        }
-        else if (Input.GetKeyDown(KeyCode.D))
-        {
-            SetQueue(State.Right);
-        }
-    }
-
     void SetSpeed()
     {
         switch (directions.Count)
@@ -181,5 +201,27 @@ public class PlayerController : MonoBehaviour
                 transform.DOScaleZ(transform.localScale.z, 0.1f)
                     .SetEase(Ease.InBack);
             });
+    }
+
+    void GetInputs()
+    {
+        if (directions.Count >= queueSize) return;
+
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            SetQueue(State.Forward);
+        }
+        else if (Input.GetKeyDown(KeyCode.S))
+        {
+            SetQueue(State.Backward);
+        }
+        else if (Input.GetKeyDown(KeyCode.A))
+        {
+            SetQueue(State.Left);
+        }
+        else if (Input.GetKeyDown(KeyCode.D))
+        {
+            SetQueue(State.Right);
+        }
     }
 }

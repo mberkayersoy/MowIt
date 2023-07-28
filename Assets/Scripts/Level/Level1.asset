@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 134d99fcc683b9d4b987a1aa102558f1, type: 3}
   m_Name: Level1
   m_EditorClassIdentifier: 
-  levelName: 
+  LevelObject: {fileID: 0}
+  level: 0
+  completionPer: 0
   targetCompletionPercentage: 0
   isCompleted: 0
-  grassList:
-  - {fileID: 0}
+  grassParent: {fileID: 0}
+  grassList: []
+  levelCanvas: {fileID: 0}

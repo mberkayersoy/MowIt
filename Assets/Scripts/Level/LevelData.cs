@@ -8,12 +8,12 @@ using UnityEngine;
 public struct LevelData
 {
     public GameObject LevelObject;
-    public string levelName;
+    public int level;
     public float completionPer;
     public float targetCompletionPercentage;
     public bool isCompleted;
     public Transform grassParent;
-    public List<Grass> grassList;
+    [SerializeField] public List<Grass> grassList;
     public Canvas levelCanvas;
 
     //public void CalculateLevelCompletionPer(LevelData level)

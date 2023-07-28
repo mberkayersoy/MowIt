@@ -5,18 +5,26 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    public List<LevelData> levels = new List<LevelData>();
+    [SerializeField] private List<LevelData> levels = new List<LevelData>();
+    [SerializeField] private List<Level> levelscriptable = new List<Level>();
+    public PlayerController player;
 
-    void Update()
+    private void Start()
+    {
+        foreach (var item in levels)
+        {
+            SetLevelGrasses(item);
+        }
+    }
+    private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            foreach (LevelData item in levels)
-            {
-                CalculateLevelCompletionPer(item);
-            }
+            CalculateLevelCompletionPer(levels[0]);
+            Debug.Log(levels[0].grassList.Count);
         }
     }
+
     public void CalculateLevelCompletionPer(LevelData level)
     {
         level.completionPer = 0;
@@ -36,19 +44,18 @@ public class LevelManager : MonoBehaviour
         }
     }
 
+    public void SetLevelGrasses(LevelData level)
+    {
+        Grass[] grasses = level.grassParent.GetComponentsInChildren<Grass>();
+        Debug.Log("grasses: " + grasses.Length);
+        level.grassList = grasses.ToList();
 
-    //public void SetLevelGrasses(LevelData level)
-    //{
-    //    Grass[] grasses = level.grassParent.GetComponentsInChildren<Grass>();
-    //    Debug.Log("grasses: " + grasses.Length);
-    //    level.grassList = grasses.ToList();
-    //    Debug.Log("level.grassList : " + level.grassList.Count);
-    //    foreach (Grass item in level.grassList)
-    //    {
-    //        Debug.Log(item.gameObject.name);
-    //    }
-    //}
+        Debug.Log("level.grassList : " + level.grassList.Count);
 
-    // Update is called once per frame
+        foreach (Grass item in level.grassList)
+        {
+            Debug.Log(item.gameObject.name);
+        }
+    }
 
 }
