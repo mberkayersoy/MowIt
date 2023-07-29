@@ -4,16 +4,16 @@ using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Level Data", menuName = "Level Data")]
-public class Level : ScriptableObject
+public class Levela : ScriptableObject
 {
     [SerializeField] public GameObject LevelObject;
-    public int level;
+
     public float completionPer;
     public float targetCompletionPercentage;
     public bool isCompleted;
     [SerializeField] private Transform grassParent;
     [SerializeField] private List<Grass> grassList;
-    [SerializeField] private Canvas levelCanvas;
+
 
     public void CalculateLevelCompletionPer()
     {

@@ -11,7 +11,7 @@ public enum State
     Stop
 }
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IDataSaver
 {
     private Rigidbody rb;
 
@@ -21,16 +21,25 @@ public class PlayerController : MonoBehaviour
     public float smoothTime = 0.250f; // speed
     public Vector3 targetPosition;
     Vector3 velocity = Vector3.zero;
-    //public int currentLevel;
 
     private Vector2 touchStartPosition;
     private Vector2 touchEndPosition;
+
+    // Persistent Datas
+    public float enginePower = 3;
+    public Vector3 lastCheckPoint;
+    public float score;
+    public bool isInitialized;
 
     void Start()
     {
         directions = new Queue<State>(queueSize);
         rb = GetComponent<Rigidbody>();
         currentState = State.Stop;
+    }
+    private void OnEnable()
+    {
+        LoadData();
     }
 
     void Update()
@@ -106,19 +115,24 @@ public class PlayerController : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.forward , out hit, Mathf.Infinity))
         {
             GameObject obj = hit.collider.gameObject;
-            //Debug.Log(obj.tag);
+            Debug.Log(obj.name);
 
             if (obj.CompareTag("rock"))
             {
                 targetPosition = hit.point - transform.forward / 2;
             }
+            else if (obj.CompareTag("CheckPoint"))
+            {
+                targetPosition = hit.point + transform.forward / 2;
+                lastCheckPoint = targetPosition;
+            }
         }
     }
-    //create raycast gizmo to see where the raycast is going
+    // create raycast gizmo to see where the raycast is going
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position, transform.forward * 1000);
+        Gizmos.DrawLine(transform.position, targetPosition);
     }
     void SetSpeed()
     {
@@ -224,4 +238,47 @@ public class PlayerController : MonoBehaviour
             SetQueue(State.Right);
         }
     }
+
+    public void SaveData()
+    {
+        PlayerData playerData = new PlayerData();
+        playerData.score = score;
+        playerData.lastCheckPoint = lastCheckPoint;
+        playerData.initilaized = isInitialized;
+        string json = JsonUtility.ToJson(playerData);
+        PlayerPrefs.SetString($"{gameObject.name}_Data", json);
+        PlayerPrefs.Save();
+    }
+
+    public void LoadData()
+    {
+        string json = PlayerPrefs.GetString($"{gameObject.name}_Data", null);
+
+        if (!string.IsNullOrEmpty(json))
+        {
+            PlayerData playerData = JsonUtility.FromJson<PlayerData>(json);
+
+            // Load the saved data
+            transform.position = playerData.lastCheckPoint;
+            score = playerData.score;
+        }
+    }
+
+    private void OnDisable()
+    {
+        SaveData();
+    }
+
 }
+
+public class PlayerData
+{
+    public Vector3 lastCheckPoint;
+    public float score;
+    public bool initilaized;
+    public float enginePower;
+}
+
+
+
+

@@ -6,6 +6,8 @@ TagManager:
   tags:
   - rock
   - grass
+  - fence
+  - CheckPoint
   layers:
   - Default
   - TransparentFX

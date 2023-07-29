@@ -5,9 +5,10 @@ using System.Linq;
 using UnityEngine;
 
 [Serializable]
-public struct LevelData
+public struct LevelDataStruct
 {
     public GameObject LevelObject;
+    public Collider collider;
     public int level;
     public float completionPer;
     public float targetCompletionPercentage;
