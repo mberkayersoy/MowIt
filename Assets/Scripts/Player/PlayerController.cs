@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour, IDataSaver
     public Vector3 targetPosition;
     Vector3 velocity = Vector3.zero;
 
+    // Input
     private Vector2 touchStartPosition;
     private Vector2 touchEndPosition;
 
@@ -39,6 +40,7 @@ public class PlayerController : MonoBehaviour, IDataSaver
     }
     private void OnEnable()
     {
+        ParticleSystem vfx;
         LoadData();
     }
 
