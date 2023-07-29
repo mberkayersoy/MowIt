@@ -48,7 +48,6 @@ public class PlayerController : MonoBehaviour, IDataSaver
         //GetInputs();
         TouchInputs();
         RotatePlayer();
-        Move();
     }
 
     
@@ -94,21 +93,23 @@ public class PlayerController : MonoBehaviour, IDataSaver
 
     void Move()
     {
-        EffectsController.instance.SetSmokeVolume(currentState);
+        EffectsController.instance.SetEffects(currentState);
         if((transform.position - targetPosition).magnitude > 0.01f && currentState != State.Stop)
         {
-
-            transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
-            //To do: transform.DOMove(); 
+            transform.DOMove(targetPosition, smoothTime).SetEase(Ease.InSine).onComplete += () =>
+            {
+                Vector3 correction = new Vector3(
+                    Mathf.Round(transform.position.x),
+                    transform.position.y,
+                    Mathf.Round(transform.position.z));
+                transform.position = correction;
+                currentState = State.Stop;
+                EffectsController.instance.SetEffects(State.Stop);
+            };
         }
         else
         {
             currentState = State.Stop;
-            Vector3 correction = new Vector3(
-                    Mathf.Round(transform.position.x),
-                    transform.position.y,
-                    Mathf.Round(transform.position.z));
-            transform.position = correction;
         }
 
     }
@@ -143,13 +144,13 @@ public class PlayerController : MonoBehaviour, IDataSaver
         switch (directions.Count)
         {
             case 0:
-                smoothTime = 0.18f;
+                smoothTime = 0.2f;
                 break;
             case 1:
-                smoothTime = 0.14f;
+                smoothTime = 0.9f;
                 break;
             case 2:
-                smoothTime = 0.10f;
+                smoothTime = 0.06f;
                 break;
             default:
                 break;
@@ -175,7 +176,6 @@ public class PlayerController : MonoBehaviour, IDataSaver
     {
         if (currentState == State.Stop)
         {
-
             if (directions.Count <= 0)
             {
                 return;
@@ -183,7 +183,6 @@ public class PlayerController : MonoBehaviour, IDataSaver
             currentState = directions.Dequeue();
             SetSpeed();
             Quaternion angle;
-
             switch (currentState)
             {
                 case State.Forward:
@@ -207,6 +206,7 @@ public class PlayerController : MonoBehaviour, IDataSaver
                     break;
             }
             FindTarget();
+            Move();
         }     
     }
 
@@ -266,11 +266,6 @@ public class PlayerController : MonoBehaviour, IDataSaver
             transform.position = playerData.lastCheckPoint;
             score = playerData.score;
             UIManager.instance.SetMoney(score);
-        }
-        else
-        {
-            lastCheckPoint = transform.position;
-           // transform.position = new Vector3(0, 0.5f, 0);
         }
     }
 

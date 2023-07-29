@@ -9928,6 +9928,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2214603581899519458, guid: 7a1452518c660294eb391986997af6be,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2214603581899519458, guid: 7a1452518c660294eb391986997af6be,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3022845592580796260, guid: 7a1452518c660294eb391986997af6be,
         type: 3}
       propertyPath: m_Name
@@ -9982,6 +9992,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6723591491676025932, guid: 7a1452518c660294eb391986997af6be,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6723591491676025932, guid: 7a1452518c660294eb391986997af6be,
+        type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6723591491676025932, guid: 7a1452518c660294eb391986997af6be,
+        type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 10000
+      objectReference: {fileID: 0}
+    - target: {fileID: 6866392344121602251, guid: 7a1452518c660294eb391986997af6be,
+        type: 3}
+      propertyPath: targetPosition.y
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
@@ -22,6 +23,10 @@ public class EffectsController : MonoBehaviour
     [SerializeField] private float startSpeedMax;
     [SerializeField] private float emissionRateMin;
     [SerializeField] private float emissionRateMax;
+    
+    [Space(5)]
+    [Header("Grass Particle Variables")]
+    [SerializeField] private ParticleSystem grassVFX;
     private void Awake()
     {
         if(instance == null)
@@ -35,19 +40,29 @@ public class EffectsController : MonoBehaviour
         engine.transform.DOShakePosition(shakeTime, shakeStrength, vibrato, randomness, false, true).SetLoops(-1);
     }
 
-    public void SetSmokeVolume(State state)
+    public void SetEffects(State state)
     {
         ParticleSystem.MainModule mainModule = smokeVFX.main;
         ParticleSystem.EmissionModule emissionModule = smokeVFX.emission;
         if (state == State.Stop)
         {
             // mainModule.startSpeed = new ParticleSystem.MinMaxCurve(Random.Range(1, 2));
+            //change rateoverTime
+            //mainModule.startSize = new ParticleSystem.MinMaxCurve(2,3);
             emissionModule.rateOverTime = new ParticleSystem.MinMaxCurve(emissionRateMin);
+            //grassvfx  stop
+            grassVFX.Stop();
+
         }
         else
         {
             //  mainModule.startSpeed = new ParticleSystem.MinMaxCurve(Random.Range(1, 6));
             emissionModule.rateOverTime = new ParticleSystem.MinMaxCurve(emissionRateMax);
         }
+    }
+
+    public void PlayGrassParticle()
+    {
+        grassVFX.Play();
     }
 }
