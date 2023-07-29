@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3022845592580796260}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.000000014901163, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -214,7 +214,12 @@ PrefabInstance:
     - target: {fileID: 7340745358053610194, guid: 5d045bed32945944da669a315bb94d45,
         type: 3}
       propertyPath: InitialModule.startSpeed.scalar
-      value: 6
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7340745358053610194, guid: 5d045bed32945944da669a315bb94d45,
+        type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7340745358053610194, guid: 5d045bed32945944da669a315bb94d45,
         type: 3}
@@ -231,6 +236,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d045bed32945944da669a315bb94d45, type: 3}
+--- !u!198 &5451895444227973968 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 7340745358053610194, guid: 5d045bed32945944da669a315bb94d45,
+    type: 3}
+  m_PrefabInstance: {fileID: 3348029433421590914}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5551640794300214165 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7169155444289673751, guid: 5d045bed32945944da669a315bb94d45,
@@ -268,7 +279,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 3342aa35238577e4bb5912d5c7cc11c0,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.3
+      value: -0.35
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3342aa35238577e4bb5912d5c7cc11c0,
         type: 3}
@@ -450,6 +461,11 @@ MonoBehaviour:
   randomness: 5
   vibrato: 4
   shakeMultiplier: 2
+  smokeVFX: {fileID: 5451895444227973968}
+  startSpeedMin: 0
+  startSpeedMax: 0
+  emissionRateMin: 1
+  emissionRateMax: 30
 --- !u!4 &9156390678615700984 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3342aa35238577e4bb5912d5c7cc11c0,

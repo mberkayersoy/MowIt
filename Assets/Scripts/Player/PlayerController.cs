@@ -40,7 +40,6 @@ public class PlayerController : MonoBehaviour, IDataSaver
     }
     private void OnEnable()
     {
-        ParticleSystem vfx;
         LoadData();
     }
 
@@ -95,8 +94,10 @@ public class PlayerController : MonoBehaviour, IDataSaver
 
     void Move()
     {
+        EffectsController.instance.SetSmokeVolume(currentState);
         if((transform.position - targetPosition).magnitude > 0.01f && currentState != State.Stop)
         {
+
             transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
             //To do: transform.DOMove(); 
         }
@@ -277,7 +278,6 @@ public class PlayerController : MonoBehaviour, IDataSaver
     {
         SaveData();
     }
-
 }
 
 public class PlayerData
