@@ -24,6 +24,7 @@ public class LevelManager : MonoBehaviour
     public void GenerateNextLevel(int level)
     {
         int nextlevel = level + 1;
+
         Debug.Log("Level " + nextlevel + " is opened.");
     }
 }

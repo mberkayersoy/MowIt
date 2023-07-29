@@ -44,7 +44,7 @@ public class Level : MonoBehaviour, IDataSaver
         if (completionPer >= targetCompletionPercentage)
         {
             isCompleted = true;
-            Debug.Log("Level completed");
+            Debug.Log("House Success");
             LevelManager.Instance.GenerateNextLevel(level);
         }
     }

@@ -226,82 +226,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1205a03a61adb4e44b3fefe92bd64521, type: 3}
---- !u!1 &13260498
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 13260499}
-  - component: {fileID: 13260501}
-  - component: {fileID: 13260500}
-  m_Layer: 5
-  m_Name: ProgressRate
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &13260499
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 13260498}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 791161693}
-  m_Father: {fileID: 635218247}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -1, y: 0}
-  m_SizeDelta: {x: 2, y: 2}
-  m_Pivot: {x: 1, y: 0.5}
---- !u!114 &13260500
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 13260498}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
---- !u!222 &13260501
-CanvasRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 13260498}
-  m_CullTransparentMesh: 1
 --- !u!1001 &18733720
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2307,6 +2231,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 266496770}
+  - component: {fileID: 266496771}
   m_Layer: 0
   m_Name: Grasses
   m_TagString: Untagged
@@ -2347,6 +2272,24 @@ Transform:
   - {fileID: 139223542}
   m_Father: {fileID: 1478795176}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &266496771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 266496769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c67c960cdd10a384dabbff5151dbb49a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  level: 1
+  isCompleted: 0
+  completionPer: 0
+  targetCompletionPercentage: 1
+  levelCanvas: {fileID: 635218246}
+  completionImage: {fileID: 0}
 --- !u!1001 &328137066
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3774,6 +3717,10 @@ MonoBehaviour:
   currentState: 4
   smoothTime: 0.25
   targetPosition: {x: 0, y: 0, z: 0}
+  enginePower: 3
+  lastCheckPoint: {x: 0, y: 0, z: 0}
+  score: 0
+  isInitialized: 0
 --- !u!65 &566542971
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4509,7 +4456,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 879869798}
-  - {fileID: 13260499}
+  - {fileID: 791161693}
   m_Father: {fileID: 1478795176}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 90}
   m_AnchorMin: {x: 0, y: 0}
@@ -4788,7 +4735,7 @@ GameObject:
   - component: {fileID: 791161695}
   - component: {fileID: 791161694}
   m_Layer: 5
-  m_Name: Image
+  m_Name: ProgressRate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4801,16 +4748,16 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 791161692}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 13260499}
+  m_Father: {fileID: 635218247}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 5.5, y: 0}
   m_SizeDelta: {x: 2, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &791161694
@@ -6062,16 +6009,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levels:
-  - LevelObject: {fileID: 1478795175}
-    level: 1
-    completionPer: 0
-    targetCompletionPercentage: 0.8
-    isCompleted: 0
-    grassParent: {fileID: 266496770}
-    grassList: []
-    levelCanvas: {fileID: 635218246}
-  levelscriptable:
-  - {fileID: 11400000, guid: dc282b2b7acf82847aee3ae6f5d7021a, type: 2}
+  - {fileID: 266496771}
   player: {fileID: 566542970}
 --- !u!1001 &1146748843
 PrefabInstance:

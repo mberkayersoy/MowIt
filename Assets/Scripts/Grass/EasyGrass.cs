@@ -9,5 +9,4 @@ public class EasyGrass : Grass
     {
         throw new System.NotImplementedException();
     }
-
 }
