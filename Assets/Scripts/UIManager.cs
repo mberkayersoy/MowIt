@@ -5,7 +5,7 @@ using TMPro;
 public class UIManager : MonoBehaviour
 { 
     public static UIManager instance;
-    private int money=100;
+    private int money;
     [SerializeField] private TextMeshProUGUI moneyText;
 
     private void Awake()
@@ -22,6 +22,7 @@ public class UIManager : MonoBehaviour
         money=value;
         GameObject incomeText = Instantiate(Resources.Load("IncomeText") as GameObject, transform);
         incomeText.GetComponent<TextMeshProUGUI>().DOFade(0, 1f);
+        incomeText.GetComponent<TextMeshProUGUI>().text = income.ToString();
         incomeText.transform.DOMoveY(incomeText.transform.position.y + 50f, 1f).OnComplete(() =>
         {
             Destroy(incomeText);

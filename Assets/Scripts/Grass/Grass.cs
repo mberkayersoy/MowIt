@@ -55,8 +55,8 @@ public abstract class Grass : MonoBehaviour, IDataSaver
             // Storing the current real-world time in binary format as lastCutTime
             lastCutTime = System.DateTime.Now.ToBinary();
 
-            player.score += income * transform.localScale.y; // Update player money.
-            // To do: UIManager UpdateDisplayScore()
+            player.score += income; // Update player money.
+            UIManager.instance.SetMoney(player.score);
             grassHouse.UpdateCompletionPer();
         }
 

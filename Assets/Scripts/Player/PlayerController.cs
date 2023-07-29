@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour, IDataSaver
     // Persistent Datas
     public float enginePower = 3;
     public Vector3 lastCheckPoint;
-    public float score;
+    public int score;
     public bool isInitialized;
 
     void Start()
@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour, IDataSaver
         Move();
     }
 
+    
     void TouchInputs()
     {
         if (Input.touchCount > 0)
@@ -261,6 +262,12 @@ public class PlayerController : MonoBehaviour, IDataSaver
             // Load the saved data
             transform.position = playerData.lastCheckPoint;
             score = playerData.score;
+            UIManager.instance.SetMoney(score);
+        }
+        else
+        {
+            lastCheckPoint = transform.position;
+           // transform.position = new Vector3(0, 0.5f, 0);
         }
     }
 
@@ -274,7 +281,7 @@ public class PlayerController : MonoBehaviour, IDataSaver
 public class PlayerData
 {
     public Vector3 lastCheckPoint;
-    public float score;
+    public int score;
     public bool initilaized;
     public float enginePower;
 }
