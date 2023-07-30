@@ -27,10 +27,30 @@ public class PlayerController : MonoBehaviour, IDataSaver
     private Vector2 touchEndPosition;
 
     // Persistent Datas
-    public float enginePower = 3;
-    public Vector3 lastCheckPoint;
-    public int score;
-    public bool isInitialized;
+    private float enginePower = 3;
+    private int money;
+    Vector3 lastCheckPoint;
+    public float EnginePower { get => enginePower; set => enginePower = value; }
+
+
+    public int GetMoney()
+    {
+        return money;
+    }
+    public void SetMoney(int value)
+    {
+        money += value;
+
+        if (value > 0)
+        {
+            UIManager.instance.MoneyIncrease(value, money);
+        }
+        else
+        {
+            UIManager.instance.MoneyDecrease(value, money);
+        }
+
+    }
 
     void Start()
     {
@@ -50,7 +70,6 @@ public class PlayerController : MonoBehaviour, IDataSaver
         RotatePlayer();
     }
 
-    
     void TouchInputs()
     {
         if (Input.touchCount > 0)
@@ -246,9 +265,8 @@ public class PlayerController : MonoBehaviour, IDataSaver
     public void SaveData()
     {
         PlayerData playerData = new PlayerData();
-        playerData.score = score;
+        playerData.money = money;
         playerData.lastCheckPoint = lastCheckPoint;
-        playerData.initilaized = isInitialized;
         string json = JsonUtility.ToJson(playerData);
         PlayerPrefs.SetString($"{gameObject.name}_Data", json);
         PlayerPrefs.Save();
@@ -262,10 +280,15 @@ public class PlayerController : MonoBehaviour, IDataSaver
         {
             PlayerData playerData = JsonUtility.FromJson<PlayerData>(json);
 
+            if (playerData.lastCheckPoint == Vector3.zero) 
+            {
+                playerData.lastCheckPoint = new Vector3(0, 0.5f, 20);
+            }
             // Load the saved data
             transform.position = playerData.lastCheckPoint;
-            score = playerData.score;
-            UIManager.instance.SetMoney(score);
+            
+            money = playerData.money;
+            UIManager.instance.UpdateMoneyText(money);
         }
     }
 
@@ -278,7 +301,7 @@ public class PlayerController : MonoBehaviour, IDataSaver
 public class PlayerData
 {
     public Vector3 lastCheckPoint;
-    public int score;
+    public int money;
     public bool initilaized;
     public float enginePower;
 }

@@ -40,10 +40,10 @@ public abstract class Grass : MonoBehaviour, IDataSaver
 
         if (other.CompareTag("Player") && !isCut)
         {
-            if (transform.localScale.y > player.enginePower)
+            if (transform.localScale.y > player.EnginePower)
             {
-                // To do: UI Feedback().
-                Debug.Log("Engine power is not enough to cut the grass. Please upgrade the engine");
+                Debug.Log("Engine power is not enough to cut the grass. Upgrade the engine");
+                UIManager.instance.SetPanelText("Engine power is not enough to cut the grass. Upgrade the engine");
                 return;
             }
             Vector3 targetScale = new Vector3(transform.localScale.x, minHeight, transform.localScale.z);
@@ -54,8 +54,7 @@ public abstract class Grass : MonoBehaviour, IDataSaver
             EffectsController.instance.PlayGrassParticle();
             // Storing the current real-world time in binary format as lastCutTime
             lastCutTime = System.DateTime.Now.ToBinary();
-            player.score += income; // Update player money.
-            UIManager.instance.SetMoney(player.score);
+            player.SetMoney(income);
             grassHouse.UpdateCompletionPer();
         }
 
