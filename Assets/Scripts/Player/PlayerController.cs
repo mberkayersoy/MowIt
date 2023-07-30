@@ -281,9 +281,9 @@ public class PlayerController : MonoBehaviour, IDataSaver
         {
             PlayerData playerData = JsonUtility.FromJson<PlayerData>(json);
 
-            if (playerData.lastCheckPoint == Vector3.zero) 
+            if (playerData.lastCheckPoint == Vector3.zero)
             {
-                playerData.lastCheckPoint = new Vector3(0, 0.5f, 20);
+                playerData.lastCheckPoint = new Vector3(-25, 0.5f, 10);
             }
             // Load the saved data
             transform.position = playerData.lastCheckPoint;

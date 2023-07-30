@@ -119,7 +119,6 @@ public abstract class Grass : MonoBehaviour, IDataSaver
             Vector3 updatedScale = transform.localScale + Vector3.up * growthAmount;
             transform.localScale = new Vector3(transform.localScale.x, Mathf.Min(updatedScale.y, maxHeight), transform.localScale.z);
 
-
             // If the height of the cut grass is smaller than the maximum height
             // and larger than the minimum height, these grasses can be cut again.
             if (transform.localScale.y == maxHeight) //& transform.localScale.y > minHeight)
