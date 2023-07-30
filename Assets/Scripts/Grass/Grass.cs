@@ -13,13 +13,14 @@ public abstract class Grass : MonoBehaviour, IDataSaver
     [Space(5)]
 
     [Header("Cut Variables")]
-    protected const float duration = 0.5f; // Duration of cut animation when grass is mown
+    protected const float duration = 0.1f; // Duration of cut animation when grass is mown
     public float minHeight = 0.2f;
-    public float maxHeight;  // This variable will decide whether to cut according to the level of the machine ??
-    public bool isCut; // Todo: It will be set as cuttable or uncuttable. (canCut)
+    public float maxHeight;  // This variable will decide whether to cut according to the level of the machine
+    public bool isCut; 
     public int income;
     public Level grassHouse;
     public PlayerController player;
+
 
     public abstract void SetGrassSize();
 
@@ -37,9 +38,10 @@ public abstract class Grass : MonoBehaviour, IDataSaver
 
     public void OnTriggerEnter(Collider other)
     {
-
+        Debug.Log("other: " + other.tag);
         if (other.CompareTag("Player") && !isCut)
         {
+
             if (transform.localScale.y > player.EnginePower)
             {
                 Debug.Log("Engine power is not enough to cut the grass. Upgrade the engine");
@@ -47,9 +49,12 @@ public abstract class Grass : MonoBehaviour, IDataSaver
                 return;
             }
             Vector3 targetScale = new Vector3(transform.localScale.x, minHeight, transform.localScale.z);
-            transform.DOScale(targetScale, duration).SetEase(Ease.OutBack).OnComplete(() =>
+            transform.DOScale(targetScale, duration).SetEase(Ease.Flash).OnComplete(() =>
             {
                 isCut = true;
+
+                gameObject.GetComponentInChildren<MeshRenderer>().enabled = false;
+
             });
             EffectsController.instance.PlayGrassParticle();
             // Storing the current real-world time in binary format as lastCutTime
@@ -121,6 +126,7 @@ public abstract class Grass : MonoBehaviour, IDataSaver
             if (transform.localScale.y == maxHeight) //& transform.localScale.y > minHeight)
             {
                 isCut = false;
+                gameObject.GetComponentInChildren<MeshRenderer>().enabled = true;
             }
         }
     }

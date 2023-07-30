@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour, IDataSaver
     private Queue<State> directions;
     public State currentState;
     public float smoothTime = 0.250f; // speed
+    public float speedMultiplier;
     public Vector3 targetPosition;
     Vector3 velocity = Vector3.zero;
 
@@ -163,13 +164,13 @@ public class PlayerController : MonoBehaviour, IDataSaver
         switch (directions.Count)
         {
             case 0:
-                smoothTime = 0.2f;
+                smoothTime = 0.12f * speedMultiplier;
                 break;
             case 1:
-                smoothTime = 0.9f;
+                smoothTime = 0.9f * speedMultiplier;
                 break;
             case 2:
-                smoothTime = 0.06f;
+                smoothTime = 0.06f * speedMultiplier;
                 break;
             default:
                 break;
