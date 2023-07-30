@@ -82,7 +82,7 @@ public class MarketManager : MonoBehaviour, IDataSaver
             }
             else
             {
-                uiManager.SetPanelText("You don't have enoguh money to upgrade engine");
+                uiManager.SetPanelText("You don't have enough money to upgrade engine!");
             }
 
         }

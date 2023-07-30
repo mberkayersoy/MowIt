@@ -106,7 +106,6 @@ public abstract class Grass : MonoBehaviour, IDataSaver
         if (isCut)
         {
             long binaryTime = lastCutTime;
-
             // Converting the binary value back to a DateTime object
             System.DateTime lastCutDateTime = System.DateTime.FromBinary(binaryTime);
 

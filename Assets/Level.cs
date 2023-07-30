@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using DG.Tweening;
 public class Level : MonoBehaviour, IDataSaver
 {
     private List<Grass> grassList = new List<Grass>();
@@ -23,8 +23,8 @@ public class Level : MonoBehaviour, IDataSaver
     private void Start()
     {
         completionImage = levelCanvas.GetComponentInChildren<Image>();
-        completionImage.fillAmount = completionPer;
-
+        //set fill amount of completion image with DG.Tweening
+        completionImage.DOFillAmount(completionPer, 0.5f).SetEase(Ease.InBounce);
         completionPer = 0;
         foreach (Grass grass in grassList)
         {
@@ -41,10 +41,11 @@ public class Level : MonoBehaviour, IDataSaver
         completionPer += 1f / grassList.Count;
         completionImage.fillAmount = completionPer;
 
-        if (completionPer >= targetCompletionPercentage)
+        if (Mathf.Round(completionPer * 100) >= 100)
         {
             isCompleted = true;
             Debug.Log("House Success");
+            UIManager.instance.SetPanelText("HOUSE COMPLETED!");
             LevelManager.Instance.GenerateNextLevel(level);
         }
     }

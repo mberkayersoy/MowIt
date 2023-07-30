@@ -54,10 +54,14 @@ public class UIManager : MonoBehaviour
     public void SetPanelText(string text)
     {
         panelText.text = text;
-        panelText.DOFade(0, 1f).SetDelay(1f).OnComplete(() =>
+        panelText.transform.DOScale(1, 0.5f).OnComplete(() =>
         {
-            panelText.text = "";
-            panelText.color = Color.white;
+            panelText.DOFade(0, 1f).SetDelay(1f).OnComplete(() =>
+            {
+                panelText.transform.localScale= Vector3.zero;
+                panelText.text = "";
+                panelText.color = Color.white;
+            });
         });
     }
 }
