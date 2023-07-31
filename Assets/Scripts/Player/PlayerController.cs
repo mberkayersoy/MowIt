@@ -19,17 +19,39 @@ public class PlayerController : MonoBehaviour, IDataSaver
     private Queue<State> directions;
     public State currentState;
     public float smoothTime = 0.250f; // speed
+    public float speedMultiplier;
     public Vector3 targetPosition;
     Vector3 velocity = Vector3.zero;
 
+    // Input
     private Vector2 touchStartPosition;
     private Vector2 touchEndPosition;
 
     // Persistent Datas
-    public float enginePower = 3;
-    public Vector3 lastCheckPoint;
-    public float score;
-    public bool isInitialized;
+    private float enginePower = 3;
+    public int money;
+    Vector3 lastCheckPoint;
+    public float EnginePower { get => enginePower; set => enginePower = value; }
+
+
+    public int GetMoney()
+    {
+        return money;
+    }
+    public void SetMoney(int value)
+    {
+        money += value;
+
+        if (value > 0)
+        {
+            UIManager.instance.MoneyIncrease(value, money);
+        }
+        else
+        {
+            UIManager.instance.MoneyDecrease(value, money);
+        }
+
+    }
 
     void Start()
     {
@@ -44,10 +66,9 @@ public class PlayerController : MonoBehaviour, IDataSaver
 
     void Update()
     {
-        //GetInputs();
-        TouchInputs();
+        GetInputs();
+        //TouchInputs();
         RotatePlayer();
-        Move();
     }
 
     void TouchInputs()
@@ -92,19 +113,23 @@ public class PlayerController : MonoBehaviour, IDataSaver
 
     void Move()
     {
+        EffectsController.instance.SetEffects(currentState);
         if((transform.position - targetPosition).magnitude > 0.01f && currentState != State.Stop)
         {
-            transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
-            //To do: transform.DOMove(); 
+            transform.DOMove(targetPosition, smoothTime).SetEase(Ease.InSine).onComplete += () =>
+            {
+                Vector3 correction = new Vector3(
+                    Mathf.Round(transform.position.x),
+                    transform.position.y,
+                    Mathf.Round(transform.position.z));
+                transform.position = correction;
+                currentState = State.Stop;
+                EffectsController.instance.SetEffects(State.Stop);
+            };
         }
         else
         {
             currentState = State.Stop;
-            Vector3 correction = new Vector3(
-                    Mathf.Round(transform.position.x),
-                    transform.position.y,
-                    Mathf.Round(transform.position.z));
-            transform.position = correction;
         }
 
     }
@@ -139,13 +164,13 @@ public class PlayerController : MonoBehaviour, IDataSaver
         switch (directions.Count)
         {
             case 0:
-                smoothTime = 0.18f;
+                smoothTime = 0.12f * speedMultiplier;
                 break;
             case 1:
-                smoothTime = 0.14f;
+                smoothTime = 0.9f * speedMultiplier;
                 break;
             case 2:
-                smoothTime = 0.10f;
+                smoothTime = 0.06f * speedMultiplier;
                 break;
             default:
                 break;
@@ -171,7 +196,6 @@ public class PlayerController : MonoBehaviour, IDataSaver
     {
         if (currentState == State.Stop)
         {
-
             if (directions.Count <= 0)
             {
                 return;
@@ -179,7 +203,6 @@ public class PlayerController : MonoBehaviour, IDataSaver
             currentState = directions.Dequeue();
             SetSpeed();
             Quaternion angle;
-
             switch (currentState)
             {
                 case State.Forward:
@@ -203,6 +226,7 @@ public class PlayerController : MonoBehaviour, IDataSaver
                     break;
             }
             FindTarget();
+            Move();
         }     
     }
 
@@ -242,9 +266,9 @@ public class PlayerController : MonoBehaviour, IDataSaver
     public void SaveData()
     {
         PlayerData playerData = new PlayerData();
-        playerData.score = score;
+        playerData.enginePower= enginePower;
+        playerData.money = money;
         playerData.lastCheckPoint = lastCheckPoint;
-        playerData.initilaized = isInitialized;
         string json = JsonUtility.ToJson(playerData);
         PlayerPrefs.SetString($"{gameObject.name}_Data", json);
         PlayerPrefs.Save();
@@ -258,9 +282,15 @@ public class PlayerController : MonoBehaviour, IDataSaver
         {
             PlayerData playerData = JsonUtility.FromJson<PlayerData>(json);
 
+            if (playerData.lastCheckPoint == Vector3.zero)
+            {
+                playerData.lastCheckPoint = new Vector3(-25, 0.5f, 10);
+            }
             // Load the saved data
             transform.position = playerData.lastCheckPoint;
-            score = playerData.score;
+            enginePower = playerData.enginePower;
+            money = playerData.money;
+            UIManager.instance.UpdateMoneyText(money);
         }
     }
 
@@ -268,13 +298,12 @@ public class PlayerController : MonoBehaviour, IDataSaver
     {
         SaveData();
     }
-
 }
 
 public class PlayerData
 {
     public Vector3 lastCheckPoint;
-    public float score;
+    public int money;
     public bool initilaized;
     public float enginePower;
 }

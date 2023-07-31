@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public abstract class Grass : MonoBehaviour, IDataSaver
+public class Grass : MonoBehaviour, IDataSaver
 {
     [Header("Time Variables")]
     protected long lastCutTime; // When was the last time it was cut. (real time)
@@ -13,15 +13,15 @@ public abstract class Grass : MonoBehaviour, IDataSaver
     [Space(5)]
 
     [Header("Cut Variables")]
-    protected const float duration = 0.5f; // Duration of cut animation when grass is mown
-    public float minHeight = 0.2f;
-    public float maxHeight;  // This variable will decide whether to cut according to the level of the machine ??
-    public bool isCut; // Todo: It will be set as cuttable or uncuttable. (canCut)
+    protected const float duration = 0.1f; // Duration of cut animation when grass is mown
+    public float minHeight = 0f;
+    public float maxHeight;  // This variable will decide whether to cut according to the level of the machine
+    public float requiredEnginePower;  // This variable will decide whether to cut according to the level of the machine
+    public bool isCut; 
     public int income;
     public Level grassHouse;
     public PlayerController player;
 
-    public abstract void SetGrassSize();
 
     public void Awake()
     {
@@ -37,26 +37,36 @@ public abstract class Grass : MonoBehaviour, IDataSaver
 
     public void OnTriggerEnter(Collider other)
     {
-
+        Debug.Log("other: " + other.tag);
         if (other.CompareTag("Player") && !isCut)
         {
-            if (transform.localScale.y > player.enginePower)
+
+            if (requiredEnginePower > player.EnginePower)
             {
-                // To do: UI Feedback().
-                Debug.Log("Engine power is not enough to cut the grass. Please upgrade the engine");
+                Debug.Log("Engine power is not enough to cut the grass. Upgrade the engine");
+                UIManager.instance.SetPanelText("Engine power is not enough to cut the grass. Upgrade the engine");
                 return;
             }
             Vector3 targetScale = new Vector3(transform.localScale.x, minHeight, transform.localScale.z);
-            transform.DOScale(targetScale, duration).SetEase(Ease.OutBack).OnComplete(() =>
+            transform.DOScale(targetScale, duration).SetEase(Ease.Flash).OnComplete(() =>
             {
                 isCut = true;
+
+                gameObject.GetComponentInChildren<MeshRenderer>().enabled = false;
+
             });
+            if (requiredEnginePower >= 3)
+            {
+                EffectsController.instance.PlayGrassParticle(new Color32(125,212,209,255));
+            }
+            else
+            {
+                EffectsController.instance.PlayGrassParticle(new Color32(143, 255, 150, 255));
+            }
 
             // Storing the current real-world time in binary format as lastCutTime
             lastCutTime = System.DateTime.Now.ToBinary();
-
-            player.score += income * transform.localScale.y; // Update player money.
-            // To do: UIManager UpdateDisplayScore()
+            player.SetMoney(income);
             grassHouse.UpdateCompletionPer();
         }
 
@@ -103,7 +113,6 @@ public abstract class Grass : MonoBehaviour, IDataSaver
         if (isCut)
         {
             long binaryTime = lastCutTime;
-
             // Converting the binary value back to a DateTime object
             System.DateTime lastCutDateTime = System.DateTime.FromBinary(binaryTime);
 
@@ -117,12 +126,12 @@ public abstract class Grass : MonoBehaviour, IDataSaver
             Vector3 updatedScale = transform.localScale + Vector3.up * growthAmount;
             transform.localScale = new Vector3(transform.localScale.x, Mathf.Min(updatedScale.y, maxHeight), transform.localScale.z);
 
-
             // If the height of the cut grass is smaller than the maximum height
             // and larger than the minimum height, these grasses can be cut again.
             if (transform.localScale.y == maxHeight) //& transform.localScale.y > minHeight)
             {
                 isCut = false;
+                gameObject.GetComponentInChildren<MeshRenderer>().enabled = true;
             }
         }
     }

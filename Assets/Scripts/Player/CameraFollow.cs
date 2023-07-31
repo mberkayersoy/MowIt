@@ -9,7 +9,10 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private float smoothTime;
     Vector3 targetPosition;
     private Vector3 _currentVelocity = Vector3.zero;
-
+    void Awake()
+    {
+        transform.position = target.position + offset;
+    }
     private void LateUpdate()
     {
         targetPosition = target.position + offset;
