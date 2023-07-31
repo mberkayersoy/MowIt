@@ -66,8 +66,8 @@ public class PlayerController : MonoBehaviour, IDataSaver
 
     void Update()
     {
-        //GetInputs();
-        TouchInputs();
+        GetInputs();
+        //TouchInputs();
         RotatePlayer();
     }
 
@@ -266,6 +266,7 @@ public class PlayerController : MonoBehaviour, IDataSaver
     public void SaveData()
     {
         PlayerData playerData = new PlayerData();
+        playerData.enginePower= enginePower;
         playerData.money = money;
         playerData.lastCheckPoint = lastCheckPoint;
         string json = JsonUtility.ToJson(playerData);
@@ -287,7 +288,7 @@ public class PlayerController : MonoBehaviour, IDataSaver
             }
             // Load the saved data
             transform.position = playerData.lastCheckPoint;
-            
+            enginePower = playerData.enginePower;
             money = playerData.money;
             UIManager.instance.UpdateMoneyText(money);
         }

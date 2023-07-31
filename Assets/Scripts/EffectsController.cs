@@ -64,7 +64,7 @@ public class EffectsController : MonoBehaviour
     public void PlayGrassParticle(Color color)
     {
         ParticleSystem.MainModule mainModule = grassVFX.main;
-        mainModule.startColor = color;
+        mainModule.startColor = new ParticleSystem.MinMaxGradient(color, color - new Color32(100, 100, 100,0));
         grassVFX.Play();
     }
 }
