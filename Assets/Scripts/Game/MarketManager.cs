@@ -30,7 +30,7 @@ public class MarketManager : MonoBehaviour, IDataSaver
 
             if (remainingTime >= upgradeTime)
             {
-                StopUpgradeProcess();
+                StartCoroutine(StopUpgradeProcess());
             }
         }
         else
@@ -52,16 +52,17 @@ public class MarketManager : MonoBehaviour, IDataSaver
         cost *= 2;
         costText.text = cost.ToString();
     }
-    public void StopUpgradeProcess()
+    IEnumerator StopUpgradeProcess()
     {
-        UpdateCost();
-
         player.SetMoney(-cost);
+
+        UpdateCost();
         player.EnginePower++;
         uiManager.SetPanelText("Engine upgraded");
         upgradeImage.fillAmount = 0;
         remainingTime = 0;
 
+        yield return new WaitForSeconds(1f);
         if (player.GetMoney() < cost)
         {
             isUpgrading = false;

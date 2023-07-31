@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour, IDataSaver
 
     // Persistent Datas
     private float enginePower = 3;
-    private int money;
+    public int money;
     Vector3 lastCheckPoint;
     public float EnginePower { get => enginePower; set => enginePower = value; }
 

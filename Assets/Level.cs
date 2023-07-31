@@ -28,7 +28,7 @@ public class Level : MonoBehaviour, IDataSaver
         completionPer = 0;
         foreach (Grass grass in grassList)
         {
-            if (grass.transform.localScale.y != grass.maxHeight)
+            if (grass.isCut)
             {
                 completionPer += 1f / grassList.Count;
                 completionImage.fillAmount = completionPer;

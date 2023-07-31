@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-public abstract class Grass : MonoBehaviour, IDataSaver
+public class Grass : MonoBehaviour, IDataSaver
 {
     [Header("Time Variables")]
     protected long lastCutTime; // When was the last time it was cut. (real time)
@@ -14,15 +14,14 @@ public abstract class Grass : MonoBehaviour, IDataSaver
 
     [Header("Cut Variables")]
     protected const float duration = 0.1f; // Duration of cut animation when grass is mown
-    public float minHeight = 0.2f;
+    public float minHeight = 0f;
     public float maxHeight;  // This variable will decide whether to cut according to the level of the machine
+    public float requiredEnginePower;  // This variable will decide whether to cut according to the level of the machine
     public bool isCut; 
     public int income;
     public Level grassHouse;
     public PlayerController player;
 
-
-    public abstract void SetGrassSize();
 
     public void Awake()
     {
@@ -42,7 +41,7 @@ public abstract class Grass : MonoBehaviour, IDataSaver
         if (other.CompareTag("Player") && !isCut)
         {
 
-            if (transform.localScale.y > player.EnginePower)
+            if (requiredEnginePower > player.EnginePower)
             {
                 Debug.Log("Engine power is not enough to cut the grass. Upgrade the engine");
                 UIManager.instance.SetPanelText("Engine power is not enough to cut the grass. Upgrade the engine");
@@ -56,7 +55,15 @@ public abstract class Grass : MonoBehaviour, IDataSaver
                 gameObject.GetComponentInChildren<MeshRenderer>().enabled = false;
 
             });
-            EffectsController.instance.PlayGrassParticle();
+            if (requiredEnginePower >= 3)
+            {
+                EffectsController.instance.PlayGrassParticle(new Color32(125,212,209,255));
+            }
+            else
+            {
+                EffectsController.instance.PlayGrassParticle(new Color32(143, 255, 150, 255));
+            }
+
             // Storing the current real-world time in binary format as lastCutTime
             lastCutTime = System.DateTime.Now.ToBinary();
             player.SetMoney(income);

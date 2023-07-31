@@ -92,7 +92,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8229978973058524029}
-  - component: {fileID: 9004728224388991525}
   - component: {fileID: 1047647617643914767}
   m_Layer: 2
   m_Name: EasyGrass
@@ -117,25 +116,6 @@ Transform:
   - {fileID: 6145077359125246697}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9004728224388991525
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7994537792836625674}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c47ce7d10ce90db41b536e873cd1e31e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  growthSpeed: 0.000001
-  minHeight: 0
-  maxHeight: 1
-  isCut: 0
-  income: 10
-  grassHouse: {fileID: 0}
-  player: {fileID: 0}
 --- !u!65 &1047647617643914767
 BoxCollider:
   m_ObjectHideFlags: 0
