@@ -22854,6 +22854,7 @@ MonoBehaviour:
   isUpgrading: 0
   upgradeImage: {fileID: 996986118}
   upgradeTime: 2
+  updatetexture: {fileID: 2800000, guid: 86ea827117f4e1949b97fa35394dbbc4, type: 3}
 --- !u!65 &1624940026
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29045,10 +29046,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6572006222681908533, guid: 7a1452518c660294eb391986997af6be,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3adac0212ecf8804b97bdbcd7aa18cef, type: 2}
     - target: {fileID: 6866392344121602251, guid: 7a1452518c660294eb391986997af6be,
         type: 3}
       propertyPath: speedMultiplier
-      value: 1.5
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

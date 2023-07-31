@@ -11,6 +11,7 @@ public class MarketManager : MonoBehaviour, IDataSaver
     public bool isUpgrading;
     [SerializeField] private Image upgradeImage;
     [SerializeField] private float upgradeTime;
+    [SerializeField] private Texture updatetexture;
     float remainingTime;
     PlayerController player;
     UIManager uiManager;
@@ -55,7 +56,6 @@ public class MarketManager : MonoBehaviour, IDataSaver
     IEnumerator StopUpgradeProcess()
     {
         player.SetMoney(-cost);
-
         UpdateCost();
         player.EnginePower++;
         uiManager.SetPanelText("Engine upgraded");
