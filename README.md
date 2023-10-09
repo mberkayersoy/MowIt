@@ -5,7 +5,7 @@
 
 The player controls the lawnmower with mobile device inputs. These are bottom to top, top to bottom, right to left, left to right. If the player enters another input before a move is finished, these moves are put in the queue and after the current movement is finished, the lawnmower performs the next move if it can be performed.
 
-### Explenation 
+## Explenation 
 Inputs entered before the current movement ends are stored in a Queue (max 4). After the current movement is finished, it learns from the Queue what the next move is and performs the next move. In this way, the player can perform a quick combo.
 
 ## Project Video
